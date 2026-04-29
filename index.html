@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#032F69">
+<title>Diagnóstico Normativo — ARION | LUMEN REI 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --navy:#032F69;
+  --blue-mid:#0058D3;
+  --blue-dark:#0E3D99;
+  --cyan:#05C1FF;
+  --amber:#FFB800;
+  --green:#06D6A0;
+  --gray-text:#444;
+  --gray-light:#F2F6FC;
+  --white:#fff;
+}
+html{height:100%}
+body{
+  font-family:'Roboto',Arial,sans-serif;
+  background:#e8edf4;
+  min-height:100%;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  margin:0;
+  padding:0;
+}
+#app{
+  width:100%;
+  max-width:420px;
+  min-height:100dvh;
+  position:relative;
+  background:var(--white);
+  overflow:hidden;
+}
+
+/* ── SCREENS ── */
+.screen{
+  display:none;
+  flex-direction:column;
+  min-height:100dvh;
+}
+.screen.active{
+  display:flex;
+  animation:fadeUp .32s ease both;
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ── INTRO ── */
+#si{
+  background:var(--navy);
+  align-items:center;
+  justify-content:center;
+  gap:1.4rem;
+  flex-direction:column;
+}
+.intro-mark{animation:zoomIn .55s cubic-bezier(.34,1.56,.64,1) both}
+.intro-tagline{
+  font-size:11px;font-weight:300;
+  color:rgba(255,255,255,0.55);
+  letter-spacing:0.14em;text-transform:uppercase;
+  animation:fadeIn .6s .35s ease both;
+}
+@keyframes zoomIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* ── HERO ── */
+#s0{
+  background:var(--navy);
+  padding:2.25rem 1.75rem 3rem;
+  align-items:center;
+  text-align:center;
+  justify-content:center;
+  flex-direction:column;
+  position:relative;
+  overflow:hidden;
+  gap:0;
+}
+.geo{position:absolute;background:var(--blue-mid);opacity:0.2;transform:skewX(-22deg);pointer-events:none}
+.g1{width:100px;height:70px;top:-12px;right:10px}
+.g2{width:60px;height:46px;top:40px;right:62px;background:var(--cyan);opacity:0.1}
+.g3{width:120px;height:80px;bottom:-22px;left:8px;opacity:0.16}
+.g4{width:50px;height:38px;bottom:28px;left:118px;background:var(--cyan);opacity:0.09}
+.event-pill{
+  position:absolute;top:1.1rem;right:1.1rem;
+  background:rgba(255,255,255,0.09);
+  border:1px solid rgba(255,255,255,0.18);
+  border-radius:20px;
+  padding:5px 13px;
+  font-size:10px;font-weight:500;
+  color:rgba(255,255,255,0.82);
+  letter-spacing:0.07em;
+  z-index:2;
+}
+.logo-block{
+  margin-bottom:2.25rem;
+  display:flex;flex-direction:column;
+  align-items:center;gap:0.65rem;
+  z-index:1;
+}
+.logo-row{display:flex;align-items:center;gap:0.55rem}
+.logo-rion{font-size:28px;font-weight:900;color:var(--white);letter-spacing:0.06em;line-height:1}
+.logo-tagline{font-size:10px;font-weight:300;color:rgba(255,255,255,0.5);letter-spacing:0.12em;text-transform:uppercase}
+.hero-h1{
+  font-size:23px;font-weight:700;
+  color:var(--white);line-height:1.28;
+  margin-bottom:1rem;
+  z-index:1;position:relative;
+  max-width:320px;
+}
+.hero-p{
+  font-size:14px;font-weight:300;
+  color:rgba(255,255,255,0.7);
+  line-height:1.7;
+  margin-bottom:2.25rem;
+  z-index:1;position:relative;
+  max-width:300px;
+}
+.btn-cyan{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  background:var(--cyan);color:var(--navy);
+  font-family:'Roboto',Arial,sans-serif;
+  font-size:14px;font-weight:700;
+  padding:0.85rem 2.25rem;
+  border-radius:8px;border:none;cursor:pointer;
+  letter-spacing:0.03em;
+  transition:opacity .2s,transform .15s;
+  z-index:1;position:relative;
+}
+.btn-cyan:hover{opacity:.88}
+.btn-cyan:active{transform:scale(.96)}
+
+/* ── QUESTION SCREENS ── */
+.q-wrap{
+  background:var(--white);
+  padding:1.6rem 1.5rem;
+  flex-direction:column;
+  flex:1;
+  display:flex;
+}
+.q-top{
+  display:flex;align-items:center;
+  justify-content:space-between;
+  margin-bottom:1.8rem;
+}
+.q-logo-row{display:flex;align-items:center;gap:0.4rem}
+.q-logo-rion{font-size:15px;font-weight:900;color:var(--navy);letter-spacing:0.09em}
+.progress-dots{display:flex;gap:6px;align-items:center}
+.pdot{width:28px;height:4px;border-radius:2px;background:var(--gray-light);transition:background .25s}
+.pdot.done{background:var(--blue-mid)}
+.pdot.now{background:var(--cyan)}
+.q-step{font-size:11px;color:var(--blue-mid);font-weight:500;letter-spacing:0.07em;text-transform:uppercase;margin-bottom:0.45rem}
+.q-text{font-size:18px;font-weight:700;color:var(--navy);line-height:1.35;margin-bottom:1.6rem}
+.opts{display:flex;flex-direction:column;gap:0.55rem;flex:1}
+.opt{
+  width:100%;text-align:left;
+  background:var(--gray-light);
+  border:1.5px solid transparent;
+  border-radius:10px;
+  padding:1rem 1.1rem;
+  font-family:'Roboto',Arial,sans-serif;
+  font-size:13.5px;font-weight:400;
+  color:var(--gray-text);
+  cursor:pointer;
+  transition:all .18s;
+  line-height:1.4;
+}
+.opt:hover{background:#e8f0fc;border-color:var(--blue-mid);color:var(--navy)}
+.opt.sel{background:#e8f0fc;border-color:var(--blue-mid);color:var(--navy);font-weight:500}
+.q-footer{display:flex;align-items:center;justify-content:flex-start;margin-top:1.35rem;padding-bottom:0.5rem}
+.btn-back{
+  background:none;border:none;cursor:pointer;
+  font-family:'Roboto',Arial,sans-serif;
+  font-size:13px;font-weight:400;
+  color:#9badc8;padding:0.5rem 0;
+  transition:color .2s;display:flex;align-items:center;gap:0.3rem;
+}
+.btn-back:hover{color:var(--navy)}
+.btn-wa{
+  width:100%;
+  background:#25D366;color:#fff;
+  font-family:'Roboto',Arial,sans-serif;
+  font-size:15px;font-weight:700;
+  padding:1rem;border:none;border-radius:10px;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:0.65rem;
+  letter-spacing:0.02em;
+  transition:opacity .2s,transform .15s;
+  box-shadow:0 4px 18px rgba(37,211,102,.28);
+}
+.btn-wa:hover{opacity:.9}
+.btn-wa:active{transform:scale(.97)}
+
+/* ── LOADING ── */
+#sl{
+  background:var(--navy);
+  align-items:center;justify-content:center;
+  gap:1.75rem;padding:2rem;
+  flex-direction:column;
+}
+.load-logo{display:flex;align-items:center;gap:0.55rem}
+.load-rion{font-size:24px;font-weight:900;color:var(--white);letter-spacing:0.08em}
+.load-text{
+  font-size:13.5px;font-weight:300;
+  color:rgba(255,255,255,0.72);
+  letter-spacing:0.05em;
+}
+.pb-track{
+  width:100%;max-width:220px;
+  height:4px;background:rgba(255,255,255,0.12);
+  border-radius:2px;overflow:hidden;
+}
+.pb-fill{
+  height:4px;border-radius:2px;
+  background:linear-gradient(90deg,var(--cyan),var(--blue-mid));
+  width:0%;transition:width .07s linear;
+}
+
+/* ── RESULT ── */
+#sr{background:var(--white);flex-direction:column;flex:1}
+.r-head{
+  padding:1.6rem 1.5rem;
+  position:relative;overflow:hidden;
+  background:var(--navy);
+  flex-shrink:0;
+}
+.r-head .geo{opacity:0.18}
+.r-badge{
+  display:inline-block;
+  font-size:10px;font-weight:700;
+  letter-spacing:0.12em;text-transform:uppercase;
+  margin-bottom:0.55rem;
+  z-index:1;position:relative;
+  padding:3px 10px;
+  border-radius:20px;
+}
+.r-title{font-size:18px;font-weight:700;color:var(--white);line-height:1.3;z-index:1;position:relative}
+/* Level color variants */
+.lv-high .r-badge{background:rgba(5,193,255,.18);color:var(--cyan);border:1px solid rgba(5,193,255,.35)}
+.lv-med .r-badge{background:rgba(255,184,0,.15);color:var(--amber);border:1px solid rgba(255,184,0,.3)}
+.lv-cert .r-badge{background:rgba(255,184,0,.15);color:var(--amber);border:1px solid rgba(255,184,0,.3)}
+.lv-low .r-badge{background:rgba(6,214,160,.15);color:var(--green);border:1px solid rgba(6,214,160,.3)}
+.r-body{
+  padding:1.35rem 1.5rem;
+  flex:1;display:flex;flex-direction:column;
+  gap:1rem;overflow-y:auto;
+}
+.r-desc{font-size:13.5px;color:var(--gray-text);line-height:1.72}
+.r-insight{
+  background:var(--gray-light);
+  border-left:3px solid var(--blue-mid);
+  border-radius:0 8px 8px 0;
+  padding:0.85rem 1rem;
+  font-size:13px;color:var(--navy);
+  font-weight:400;line-height:1.58;
+}
+.divider{height:1px;background:var(--gray-light);flex-shrink:0}
+.form-section-lbl{
+  font-size:11px;font-weight:700;
+  color:var(--blue-mid);
+  text-transform:uppercase;letter-spacing:0.09em;
+  margin-bottom:0.65rem;display:block;
+}
+.form-col{display:flex;flex-direction:column;gap:0.5rem}
+.fi{
+  width:100%;
+  font-family:'Roboto',Arial,sans-serif;
+  font-size:14px;
+  padding:0.72rem 0.95rem;
+  border:1.5px solid #d8e3f0;
+  border-radius:8px;
+  background:var(--white);color:var(--navy);
+  outline:none;
+  transition:border-color .15s;
+  -webkit-appearance:none;
+}
+.fi:focus{border-color:var(--blue-mid)}
+.fi::placeholder{color:#9badc8}
+.fi.err{border-color:#e8354f}
+.btn-submit{
+  width:100%;
+  background:var(--navy);color:var(--white);
+  font-family:'Roboto',Arial,sans-serif;
+  font-size:14px;font-weight:700;
+  padding:0.9rem;border:none;border-radius:8px;
+  cursor:pointer;letter-spacing:0.03em;
+  transition:opacity .2s,transform .15s;
+  margin-top:0.15rem;
+}
+.btn-submit:hover{opacity:.87}
+.btn-submit:active{transform:scale(.98)}
+.disclaimer{
+  font-size:11px;color:#9badc8;
+  text-align:center;font-weight:300;
+  padding-bottom:0.5rem;
+}
+
+/* ── SUCCESS ── */
+#ss{
+  background:var(--navy);
+  flex-direction:column;align-items:center;
+  justify-content:center;
+  padding:2.25rem 1.75rem;
+  text-align:center;gap:1.3rem;
+}
+.check-circle{
+  width:64px;height:64px;
+  background:rgba(5,193,255,.12);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  border:2.5px solid var(--cyan);
+  animation:popIn .48s cubic-bezier(.34,1.56,.64,1) both;
+  flex-shrink:0;
+}
+@keyframes popIn{from{opacity:0;transform:scale(.35)}to{opacity:1;transform:scale(1)}}
+.check-mark{
+  width:24px;height:13px;
+  border-bottom:3px solid var(--cyan);
+  border-right:3px solid var(--cyan);
+  transform:rotate(45deg) translate(-2px,-4px);
+}
+.succ-h1{font-size:20px;font-weight:700;color:var(--white);line-height:1.3}
+.succ-p{
+  font-size:13.5px;font-weight:300;
+  color:rgba(255,255,255,.7);
+  line-height:1.68;max-width:290px;
+}
+.contact-card{
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:10px;
+  padding:1.1rem 1.4rem;
+  width:100%;
+}
+.cline{font-size:12px;color:rgba(255,255,255,.55);font-weight:300;margin-bottom:3px}
+.cval{font-size:13.5px;color:var(--white);font-weight:500}
+.succ-btns{display:flex;flex-direction:column;gap:0.6rem;width:100%}
+.btn-cal{
+  width:100%;
+  background:var(--cyan);color:var(--navy);
+  font-family:'Roboto',Arial,sans-serif;
+  font-size:13.5px;font-weight:700;
+  padding:0.85rem;border:none;border-radius:8px;
+  cursor:pointer;transition:opacity .2s;
+  letter-spacing:0.02em;
+}
+.btn-cal:hover{opacity:.88}
+.btn-video{
+  width:100%;
+  background:rgba(255,255,255,.08);
+  color:rgba(255,255,255,.88);
+  border:1px solid rgba(255,255,255,.2);
+  font-family:'Roboto',Arial,sans-serif;
+  font-size:13.5px;font-weight:500;
+  padding:0.85rem;border-radius:8px;
+  cursor:pointer;transition:all .2s;
+  letter-spacing:0.02em;
+}
+.btn-video:hover{background:rgba(255,255,255,.14);color:var(--white)}
+.btn-ghost{
+  background:none;border:none;cursor:pointer;
+  font-family:'Roboto',Arial,sans-serif;
+  font-size:12px;font-weight:400;
+  color:rgba(255,255,255,.35);
+  text-decoration:underline;
+  transition:color .2s;padding:0.25rem;
+}
+.btn-ghost:hover{color:rgba(255,255,255,.65)}
+</style>
+</head>
+<body>
+
+<!-- Shared SVG gradient definitions -->
+<svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+  <defs>
+    <linearGradient id="ag" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#05C1FF"/>
+      <stop offset="100%" stop-color="#0A3CB5"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<div id="app">
+
+  <!-- ── SCREEN 0: INTRO ── -->
+  <div id="si" class="screen">
+    <div class="intro-mark">
+      <svg width="72" height="62" viewBox="0 0 64 56" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="gi" x1="1" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#05C1FF"/>
+            <stop offset="100%" stop-color="#0A3CB5"/>
+          </linearGradient>
+        </defs>
+        <polygon points="2,54 18,54 36,2 20,2" fill="url(#gi)"/>
+        <polygon points="28,2 44,2 62,54 46,54" fill="url(#gi)" opacity="0.86"/>
+      </svg>
+    </div>
+    <div class="intro-tagline">Efectividad · Seguridad · Tranquilidad</div>
+  </div>
+
+  <!-- ── SCREEN 1: HERO ── -->
+  <div id="s0" class="screen">
+    <div class="geo g1" aria-hidden="true"></div>
+    <div class="geo g2" aria-hidden="true"></div>
+    <div class="geo g3" aria-hidden="true"></div>
+    <div class="geo g4" aria-hidden="true"></div>
+    <div class="event-pill">LUMEN REI 2026</div>
+    <div class="logo-block">
+      <div class="logo-row">
+        <svg width="44" height="38" viewBox="0 0 64 56" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="gh" x1="1" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#05C1FF"/>
+              <stop offset="100%" stop-color="#0A3CB5"/>
+            </linearGradient>
+          </defs>
+          <polygon points="2,54 18,54 36,2 20,2" fill="url(#gh)"/>
+          <polygon points="28,2 44,2 62,54 46,54" fill="url(#gh)" opacity="0.86"/>
+        </svg>
+        <span class="logo-rion">RION</span>
+      </div>
+      <div class="logo-tagline">Software de Cumplimiento Normativo</div>
+    </div>
+    <h1 class="hero-h1">¿Cuántas normas le aplican a su empresa hoy?</h1>
+    <p class="hero-p">La mayoría de los directivos no lo sabe con exactitud.<br>En 60 segundos le ayudamos a descubrirlo.</p>
+    <button class="btn-cyan" onclick="startDiag()">Empezar diagnóstico →</button>
+  </div>
+
+  <!-- ── SCREEN 2: PREGUNTA 1 ── -->
+  <div id="s1" class="screen">
+    <div class="q-wrap">
+      <div class="q-top">
+        <div class="q-logo-row">
+          <svg width="26" height="22" viewBox="0 0 64 56" fill="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="gq1" x1="1" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#05C1FF"/>
+                <stop offset="100%" stop-color="#0A3CB5"/>
+              </linearGradient>
+            </defs>
+            <polygon points="2,54 18,54 36,2 20,2" fill="url(#gq1)"/>
+            <polygon points="28,2 44,2 62,54 46,54" fill="url(#gq1)" opacity="0.86"/>
+          </svg>
+          <span class="q-logo-rion">RION</span>
+        </div>
+        <div class="progress-dots">
+          <div class="pdot now"></div>
+          <div class="pdot"></div>
+          <div class="pdot"></div>
+        </div>
+      </div>
+      <div class="q-step">Pregunta 1 de 3</div>
+      <div class="q-text">¿En qué sector opera principalmente su organización?</div>
+      <div class="opts" id="opts1">
+        <button class="opt" onclick="pick(this,1)">Construcción e inmobiliario</button>
+        <button class="opt" onclick="pick(this,1)">Manufactura e industria</button>
+        <button class="opt" onclick="pick(this,1)">Servicios y consultoría</button>
+        <button class="opt" onclick="pick(this,1)">Minería y energía</button>
+        <button class="opt" onclick="pick(this,1)">Otro sector</button>
+      </div>
+      <div class="q-footer">
+        <button class="btn-back" onclick="goTo('s0')">← Volver al inicio</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SCREEN 3: PREGUNTA 2 ── -->
+  <div id="s2" class="screen">
+    <div class="q-wrap">
+      <div class="q-top">
+        <div class="q-logo-row">
+          <svg width="26" height="22" viewBox="0 0 64 56" fill="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="gq2" x1="1" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#05C1FF"/>
+                <stop offset="100%" stop-color="#0A3CB5"/>
+              </linearGradient>
+            </defs>
+            <polygon points="2,54 18,54 36,2 20,2" fill="url(#gq2)"/>
+            <polygon points="28,2 44,2 62,54 46,54" fill="url(#gq2)" opacity="0.86"/>
+          </svg>
+          <span class="q-logo-rion">RION</span>
+        </div>
+        <div class="progress-dots">
+          <div class="pdot done"></div>
+          <div class="pdot now"></div>
+          <div class="pdot"></div>
+        </div>
+      </div>
+      <div class="q-step">Pregunta 2 de 3</div>
+      <div class="q-text">¿Cómo gestiona hoy su cumplimiento normativo ambiental y de SST?</div>
+      <div class="opts" id="opts2">
+        <button class="opt" onclick="pick(this,2)">Tenemos un consultor externo</button>
+        <button class="opt" onclick="pick(this,2)">Matrices propias (Excel u otro)</button>
+        <button class="opt" onclick="pick(this,2)">No tenemos proceso definido</button>
+        <button class="opt" onclick="pick(this,2)">Usamos software especializado</button>
+      </div>
+      <div class="q-footer">
+        <button class="btn-back" onclick="goTo('s1')">← Anterior</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SCREEN 4: PREGUNTA 3 ── -->
+  <div id="s3" class="screen">
+    <div class="q-wrap">
+      <div class="q-top">
+        <div class="q-logo-row">
+          <svg width="26" height="22" viewBox="0 0 64 56" fill="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="gq3" x1="1" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#05C1FF"/>
+                <stop offset="100%" stop-color="#0A3CB5"/>
+              </linearGradient>
+            </defs>
+            <polygon points="2,54 18,54 36,2 20,2" fill="url(#gq3)"/>
+            <polygon points="28,2 44,2 62,54 46,54" fill="url(#gq3)" opacity="0.86"/>
+          </svg>
+          <span class="q-logo-rion">RION</span>
+        </div>
+        <div class="progress-dots">
+          <div class="pdot done"></div>
+          <div class="pdot done"></div>
+          <div class="pdot now"></div>
+        </div>
+      </div>
+      <div class="q-step">Pregunta 3 de 3</div>
+      <div class="q-text">¿Ha tenido observaciones o hallazgos en auditorías de cumplimiento en los últimos dos años?</div>
+      <div class="opts" id="opts3">
+        <button class="opt" onclick="pick(this,3)">Sí, tuvimos hallazgos</button>
+        <button class="opt" onclick="pick(this,3)">No hemos tenido auditorías recientes</button>
+        <button class="opt" onclick="pick(this,3)">No tuvimos hallazgos</button>
+        <button class="opt" onclick="pick(this,3)">Estamos en proceso de certificación</button>
+      </div>
+      <div class="q-footer">
+        <button class="btn-back" onclick="goTo('s2')">← Anterior</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SCREEN 5: LOADING ── -->
+  <div id="sl" class="screen">
+    <div class="load-logo">
+      <svg width="38" height="33" viewBox="0 0 64 56" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="gl" x1="1" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#05C1FF"/>
+            <stop offset="100%" stop-color="#0A3CB5"/>
+          </linearGradient>
+        </defs>
+        <polygon points="2,54 18,54 36,2 20,2" fill="url(#gl)"/>
+        <polygon points="28,2 44,2 62,54 46,54" fill="url(#gl)" opacity="0.86"/>
+      </svg>
+      <span class="load-rion">RION</span>
+    </div>
+    <div class="load-text">Analizando su perfil normativo...</div>
+    <div class="pb-track">
+      <div class="pb-fill" id="pb"></div>
+    </div>
+  </div>
+
+  <!-- ── SCREEN 6: RESULTADO ── -->
+  <div id="sr" class="screen">
+    <div class="r-head lv-high" id="rhd">
+      <div class="geo g1" aria-hidden="true"></div>
+      <div class="geo g3" style="width:70px;height:52px" aria-hidden="true"></div>
+      <div class="r-badge" id="rlevel">Exposición normativa alta</div>
+      <div class="r-title" id="rtitle">Su organización tiene riesgos normativos que requieren atención.</div>
+    </div>
+    <div class="r-body">
+      <p class="r-desc" id="rdesc"></p>
+      <div class="r-insight" id="rinsight"></div>
+      <div class="divider"></div>
+      <div>
+        <span class="form-section-lbl">¿Le interesa? Conversemos ahora</span>
+        <p style="font-size:13px;color:var(--gray-text);line-height:1.65;margin-bottom:1rem">Un asesor de ARION puede revisar su diagnóstico y responder sus preguntas en los próximos minutos.</p>
+        <button class="btn-wa" onclick="openWhatsApp()">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          Hablar con un asesor en WhatsApp
+        </button>
+      </div>
+      <p class="disclaimer">Sin compromiso. Respuesta en minutos.</p>
+    </div>
+  </div>
+
+  <!-- ── SCREEN 7: CONFIRMACIÓN ── -->
+  <div id="ss" class="screen">
+    <div class="check-circle">
+      <div class="check-mark"></div>
+    </div>
+    <p class="succ-h1">Listo. Un asesor de ARION se comunica con usted antes del viernes.</p>
+    <p class="succ-p">Revisaremos su diagnóstico y le escribiremos para coordinar una demo de 30 minutos sin costo.</p>
+    <div class="contact-card">
+      <div class="cline">¿Preguntas antes? Escríbanos:</div>
+      <div class="cval">comercial@arion.com.co</div>
+      <div class="cval" style="margin-top:4px">300 342 7077</div>
+      <div class="cval" style="margin-top:6px;font-size:12px;color:rgba(255,255,255,.45);font-weight:300">www.arion.com.co</div>
+    </div>
+    <div class="succ-btns">
+      <button class="btn-cal" onclick="addCalendar()">📅 Agregar a calendario</button>
+      <button class="btn-video" onclick="window.open('https://www.arion.com.co','_blank')">▶&nbsp; Ver cómo funciona ARION</button>
+    </div>
+    <button class="btn-ghost" onclick="resetAll()">Volver al inicio</button>
+  </div>
+
+</div><!-- #app -->
+
+<script>
+var A = { q1: null, q2: null, q3: null };
+var cur = null;
+
+function goTo(id) {
+  var next = document.getElementById(id);
+  if (cur) {
+    cur.classList.remove('active');
+  }
+  next.classList.add('active');
+  cur = next;
+  window.scrollTo(0, 0);
+}
+
+function pick(el, q) {
+  var opts = document.getElementById('opts' + q).querySelectorAll('.opt');
+  opts.forEach(function(b) { b.classList.remove('sel'); });
+  el.classList.add('sel');
+  A['q' + q] = el.textContent.trim();
+  setTimeout(function() {
+    if (q === 1) goTo('s2');
+    else if (q === 2) goTo('s3');
+    else if (q === 3) runLoading();
+  }, 380);
+}
+
+function startDiag() {
+  goTo('s1');
+}
+
+function runLoading() {
+  goTo('sl');
+  var fill = document.getElementById('pb');
+  var w = 0;
+  var t = setInterval(function() {
+    w += 2.4;
+    fill.style.width = Math.min(w, 100) + '%';
+    if (w >= 100) {
+      clearInterval(t);
+      buildResult();
+      goTo('sr');
+    }
+  }, 32);
+}
+
+function buildResult() {
+  var q1 = A.q1 || '';
+  var q2 = A.q2 || '';
+  var q3 = A.q3 || '';
+
+  var hasHallazgos  = q3.indexOf('Sí,') === 0;
+  var noAudits      = q3.indexOf('No hemos tenido auditorías') === 0;
+  var noHallazgos   = q3.indexOf('No tuvimos') === 0;
+  var certif        = q3.indexOf('Estamos en proceso') === 0;
+  var noProcess     = q2.indexOf('No tenemos') === 0;
+  var software      = q2.indexOf('Usamos software') === 0;
+
+  var sectorCtx = '';
+  if (q1.indexOf('Construcción') === 0)
+    sectorCtx = 'En el sector construcción e inmobiliario, las obligaciones ambientales y de SST se multiplican por obra, municipio y entidad contratante — muchas sin un inventario formal que las respalde.';
+  else if (q1.indexOf('Manufactura') === 0)
+    sectorCtx = 'En manufactura e industria, la normatividad incluye permisos de vertimientos, emisiones atmosféricas y exigencias de COPASST que se actualizan con frecuencia sin que el equipo se entere.';
+  else if (q1.indexOf('Servicios') === 0)
+    sectorCtx = 'En servicios y consultoría, las normas de SST, protección de datos y contratación generan obligaciones que muchos equipos gestionan de manera informal hasta que llega una auditoría.';
+  else if (q1.indexOf('Minería') === 0)
+    sectorCtx = 'En minería y energía, el volumen de normas ambientales, de SST y sectoriales es de los más altos del país — con actualizaciones frecuentes de MinAmbiente, ANLA y Ministerio de Minas.';
+  else
+    sectorCtx = 'Independientemente del sector, el cumplimiento normativo ambiental y de SST en Colombia está regulado por más de 50 cuerpos normativos activos que se actualizan de forma continua.';
+
+  var level, lvlText, title, desc, insight;
+
+  if (hasHallazgos || noProcess || noAudits) {
+    level = 'lv-high';
+    lvlText = 'Exposición normativa alta';
+
+    if (hasHallazgos) {
+      title = 'Su organización tiene riesgos normativos que requieren atención inmediata.';
+      desc = sectorCtx + ' Haber tenido hallazgos en auditorías previas indica brechas documentales o de proceso que, si no se cierran, pueden escalar. En Colombia, una infracción ambiental confirmada puede superar los 5.000 SMLMV en multas — sin contar el impacto reputacional ante clientes y certificadoras.';
+      insight = 'Con ARION, su equipo identifica en menos de 72 horas todas las normas que aplican y el estado de cumplimiento de cada requisito, con soporte documental trazable desde el primer día.';
+    } else if (noProcess) {
+      title = 'Su organización opera sin un colchón frente a eventuales inspecciones o auditorías.';
+      desc = sectorCtx + ' Sin un proceso formal de actualización normativa, las empresas dependen de la memoria del equipo para saber qué les aplica — hasta que una auditoría sorpresiva expone el vacío. El costo de un incumplimiento detectado por un ente de control es exponencialmente mayor al de implementar una gestión preventiva.';
+      insight = 'ARION le permite tener un inventario normativo completo, actualizado y asignado a responsables — sin depender de un solo consultor ni de matrices en Excel que nadie revisa.';
+    } else {
+      title = 'No tener auditorías recientes no equivale a estar en cumplimiento.';
+      desc = sectorCtx + ' Significa que el riesgo aún no ha sido medido. Los entes de control en Colombia han incrementado sus operativos de inspección en los últimos dos años, especialmente en SST, ambiental y seguridad industrial. El primer hallazgo siempre sale más caro.';
+      insight = 'ARION le permite conocer su exposición normativa real antes de que la descubra una entidad externa — con un diagnóstico completo y un plan de acción priorizado por riesgo.';
+    }
+
+  } else if (certif) {
+    level = 'lv-cert';
+    lvlText = 'Momento crítico de gestión';
+    title = 'Está en el momento correcto para fortalecer su cumplimiento normativo.';
+    desc = sectorCtx + ' Los procesos de certificación ISO 14001 e ISO 45001 exigen trazabilidad completa del cumplimiento legal. La mayoría de los hallazgos en auditorías ICONTEC están relacionados con matrices legales desactualizadas, requisitos sin responsable asignado o sin soporte documental suficiente.';
+    insight = 'ARION ha acompañado más de 60 auditorías ICONTEC exitosas. Le mostramos exactamente qué necesita documentar para su proceso de certificación, sin sorpresas de último momento.';
+
+  } else if (noHallazgos && software) {
+    level = 'lv-low';
+    lvlText = 'Gestión activa detectada';
+    title = 'Tiene bases sólidas. Le mostramos cómo llevarlas al siguiente nivel.';
+    desc = sectorCtx + ' Empresas con herramientas especializadas de gestión normativa reducen sus costos de cumplimiento hasta un 60% y llegan a auditorías con mayor respaldo documental. El diferencial competitivo ahora está en la automatización de alertas de cambio normativo y el acompañamiento jurídico continuo.';
+    insight = 'Compare su proceso actual con el estándar ARION y descubra qué brechas quedan por cerrar antes de su próxima auditoría ICONTEC o visita de autoridad ambiental.';
+
+  } else {
+    level = 'lv-med';
+    lvlText = 'Oportunidades de mejora identificadas';
+    title = 'Hay brechas importantes que vale la pena cerrar antes de la próxima auditoría.';
+    desc = sectorCtx + ' Gestionar la normatividad con consultores externos o matrices manuales es costoso, lento y difícil de trazar. Cuando llega una auditoría inesperada, la calidad del soporte documental marca la diferencia entre un hallazgo menor y una sanción mayor.';
+    insight = 'Con ARION, su equipo jurídico y operativo trabajan sobre la misma plataforma. Todo queda registrado, trazado y disponible en tiempo real desde cualquier dispositivo.';
+  }
+
+  var rhd = document.getElementById('rhd');
+  rhd.className = 'r-head ' + level;
+  document.getElementById('rlevel').textContent = lvlText;
+  document.getElementById('rtitle').textContent = title;
+  document.getElementById('rdesc').textContent = desc;
+  document.getElementById('rinsight').textContent = insight;
+}
+
+function openWhatsApp() {
+  var q1  = A.q1 || 'No especificado';
+  var q2  = A.q2 || 'No especificado';
+  var q3  = A.q3 || 'No especificado';
+  var lvl = document.getElementById('rlevel').textContent || '';
+  var msg =
+    'Hola, acabo de completar el diagnóstico normativo de ARION en el evento LUMEN REI 2026.\n\n' +
+    '🎯 Mi resultado: ' + lvl + '\n\n' +
+    '📋 Mis respuestas:\n' +
+    '• Sector: ' + q1 + '\n' +
+    '• Gestión normativa: ' + q2 + '\n' +
+    '• Auditorías recientes: ' + q3 + '\n\n' +
+    'Me gustaría agendar una revisión gratuita de 30 minutos.';
+  window.open('https://wa.me/573003427077?text=' + encodeURIComponent(msg), '_blank');
+  goTo('ss');
+}
+
+function addCalendar() {
+  var d = new Date();
+  var daysToFri = (5 - d.getDay() + 7) % 7 || 7;
+  d.setDate(d.getDate() + daysToFri);
+  var yr  = d.getFullYear();
+  var mo  = String(d.getMonth() + 1).padStart(2, '0');
+  var dy  = String(d.getDate()).padStart(2, '0');
+  var start = yr + mo + dy + 'T100000';
+  var end   = yr + mo + dy + 'T103000';
+  var ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//ARION//Diagnostico Normativo//ES',
+    'BEGIN:VEVENT',
+    'DTSTART:' + start,
+    'DTEND:' + end,
+    'SUMMARY:Demo ARION – Revisión normativa gratuita',
+    'DESCRIPTION:Un asesor de ARION revisará su diagnóstico y coordinará\\nuna demo de 30 minutos sin costo.\\n\\nContacto: comercial@arion.com.co | 300 342 7077',
+    'ORGANIZER;CN=ARION:mailto:comercial@arion.com.co',
+    'STATUS:TENTATIVE',
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\r\n');
+
+  try {
+    var blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+    var url  = URL.createObjectURL(blob);
+    var a    = document.createElement('a');
+    a.href = url;
+    a.download = 'arion-demo.ics';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  } catch (e) {
+    window.open('mailto:comercial@arion.com.co?subject=Demo%20ARION%20-%20Revisi%C3%B3n%20normativa');
+  }
+}
+
+function resetAll() {
+  A = { q1: null, q2: null, q3: null };
+  document.querySelectorAll('.opt').forEach(function(b) { b.classList.remove('sel'); });
+  document.getElementById('pb').style.width = '0%';
+  goTo('s0');
+}
+
+// Boot: show intro, then hero
+(function() {
+  var intro = document.getElementById('si');
+  intro.classList.add('active');
+  cur = intro;
+  setTimeout(function() { goTo('s0'); }, 2200);
+})();
+</script>
+</body>
+</html>
